@@ -11,6 +11,16 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
+// Create placeholder pages for new routes
+import Properties from "./pages/Properties";
+import Agents from "./pages/Agents";
+import AIAnalysis from "./pages/AIAnalysis";
+import Rentals from "./pages/Rentals";
+import Lenders from "./pages/Lenders";
+import PropertyAnalysis from "./pages/PropertyAnalysis";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,6 +35,17 @@ const App = () => (
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
+          
+          {/* New routes */}
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/agents" element={<Agents />} />
+          <Route path="/ai-analysis" element={<AIAnalysis />} />
+          <Route path="/rentals" element={<Rentals />} />
+          <Route path="/lenders" element={<Lenders />} />
+          <Route path="/property-analysis" element={<PropertyAnalysis />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

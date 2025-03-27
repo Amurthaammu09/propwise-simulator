@@ -29,14 +29,17 @@ import {
   Clock,
   Bell,
   User,
+  AlertCircle
 } from "lucide-react";
 import Footer from "@/components/Footer";
+
+type UserRole = "investor" | "developer" | "admin";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   
   // This would be fetched from your auth context in a real application
-  const userRole = "investor"; // Could be "investor", "developer", or "admin"
+  const userRole: UserRole = "investor"; // Could be "investor", "developer", or "admin"
   
   // Mock data for demonstration purposes
   const properties = [
