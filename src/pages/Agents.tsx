@@ -11,7 +11,7 @@ const agents = [
   {
     id: 1,
     name: "Sarah Johnson",
-    photo: "https://placehold.co/150x150/png",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBOyrh9LBPcCRDFHSzblC3rOI-CKDjiw21bA&s",
     role: "Senior Investment Advisor",
     specialties: ["Commercial", "Multi-family", "Retirement Properties"],
     location: "New York, NY",
@@ -28,7 +28,7 @@ const agents = [
   {
     id: 2,
     name: "Michael Rodriguez",
-    photo: "https://placehold.co/150x150/png",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNTQhkG50rHgqSeCvw30Ei7KtvZBrQqxDXkA&s",
     role: "Development Specialist",
     specialties: ["Land Development", "Zoning", "New Construction"],
     location: "Austin, TX",
@@ -45,7 +45,7 @@ const agents = [
   {
     id: 3,
     name: "Jennifer Liu",
-    photo: "https://placehold.co/150x150/png",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXu_tCBDcHUMpj2klUD6sOR0ZzctmBIJ4zZw&s",
     role: "Residential Investment Expert",
     specialties: ["Single Family", "Condos", "Rental Properties"],
     location: "San Francisco, CA",
@@ -62,7 +62,7 @@ const agents = [
   {
     id: 4,
     name: "Robert Washington",
-    photo: "https://placehold.co/150x150/png",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLqtz8-Yp4wbnglg7fT2HPfMsaz6gdHnsrpA&s",
     role: "Commercial Property Analyst",
     specialties: ["Office Spaces", "Retail", "Industrial"],
     location: "Chicago, IL",
