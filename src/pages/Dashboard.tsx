@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { 
@@ -39,13 +38,12 @@ import {
 import { Progress } from "@/components/ui/progress";
 import Footer from "@/components/Footer";
 
+type UserRole = "investor" | "developer" | "admin";
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  // In a real app, this would come from your auth context
-  // This needs to be a string type for the TS comparison to work correctly
-  const userRole = "investor";
+  const userRole: UserRole = "investor";
   
-  // Mock data for dashboard panels
   const propertyCards = [
     {
       id: 1,
@@ -76,7 +74,6 @@ const Dashboard = () => {
     },
   ];
 
-  // Mock notifications
   const notifications = [
     {
       id: 1,
@@ -98,7 +95,6 @@ const Dashboard = () => {
     },
   ];
 
-  // Mock analytics data
   const analyticsData = {
     propertyValue: 12500000,
     propertyValueChange: 8.4,
@@ -290,7 +286,6 @@ const Dashboard = () => {
 
           {activeTab === "properties" && (
             <div className="mt-6">
-              {/* Properties tab content would go here */}
               <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
                 [Property Management Interface Coming Soon]
               </div>
@@ -299,7 +294,6 @@ const Dashboard = () => {
           
           {activeTab === "analytics" && (
             <div className="mt-6">
-              {/* Analytics tab content would go here */}
               <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
                 [Advanced Analytics Coming Soon]
               </div>
@@ -308,7 +302,6 @@ const Dashboard = () => {
           
           {userRole === "developer" && activeTab === "projects" && (
             <div className="mt-6">
-              {/* Projects tab content would go here */}
               <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
                 [Project Management Interface Coming Soon]
               </div>
@@ -317,7 +310,6 @@ const Dashboard = () => {
           
           {userRole === "admin" && activeTab === "users" && (
             <div className="mt-6">
-              {/* Users tab content would go here */}
               <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
                 [User Management Interface Coming Soon]
               </div>
@@ -326,7 +318,6 @@ const Dashboard = () => {
           
           {activeTab === "settings" && (
             <div className="mt-6">
-              {/* Settings tab content would go here */}
               <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
                 [Settings Interface Coming Soon]
               </div>
