@@ -1,13 +1,25 @@
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
-import PropertyCard from "@/components/PropertyCard";
-import { Button } from "@/components/ui/button";
+import { 
+  Activity, 
+  Building, 
+  DollarSign, 
+  Map, 
+  Settings, 
+  TrendingUp, 
+  Users, 
+  BarChart3,
+  Briefcase,
+  FileText,
+  HardHat,
+  Bell
+} from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,341 +30,309 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import {
-  Building2,
-  TrendingUp,
-  DollarSign,
-  FileText,
-  Map,
-  Settings,
-  PieChart,
-  BarChart3,
-  Clock,
-  Bell,
-  User,
-  AlertCircle
-} from "lucide-react";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Progress } from "@/components/ui/progress";
 import Footer from "@/components/Footer";
 
-type UserRole = "investor" | "developer" | "admin";
-
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("overview");
+  // In a real app, this would come from your auth context
+  // This needs to be a string type for the TS comparison to work correctly
+  const userRole = "investor";
   
-  // This would be fetched from your auth context in a real application
-  const userRole: UserRole = "investor"; // Could be "investor", "developer", or "admin"
-  
-  // Mock data for demonstration purposes
-  const properties = [
+  // Mock data for dashboard panels
+  const propertyCards = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=3053&auto=format&fit=crop",
-      title: "Modern Apartment Complex",
-      location: "Downtown, New York",
-      price: "$2,450,000",
-      roi: "8.5% ROI",
-      risk: "low"
+      title: "Downtown Loft Project",
+      location: "123 Main St, New York, NY",
+      value: "$2.4M",
+      roi: "+12.5%",
+      risk: "Low",
+      image: "https://placehold.co/600x400/png",
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=3024&auto=format&fit=crop",
-      title: "Suburban Family Home",
-      location: "Westfield, New Jersey",
-      price: "$850,000",
-      roi: "6.2% ROI",
-      risk: "medium"
+      title: "Riverside Apartments",
+      location: "456 Water Ave, San Francisco, CA",
+      value: "$5.8M",
+      roi: "+8.3%",
+      risk: "Medium",
+      image: "https://placehold.co/600x400/png",
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=3087&auto=format&fit=crop",
-      title: "Commercial Office Building",
-      location: "Financial District, San Francisco",
-      price: "$5,200,000",
-      roi: "9.8% ROI",
-      risk: "high"
-    }
+      title: "Highland Commercial Center",
+      location: "789 Hill Rd, Austin, TX",
+      value: "$3.2M",
+      roi: "+15.7%",
+      risk: "High",
+      image: "https://placehold.co/600x400/png",
+    },
   ];
+
+  // Mock notifications
+  const notifications = [
+    {
+      id: 1,
+      title: "Market Analysis Complete",
+      description: "Downtown Loft Project market analysis report is ready for review.",
+      time: "2 hours ago",
+    },
+    {
+      id: 2,
+      title: "Property Value Update",
+      description: "Riverside Apartments value has increased by 3.2% this month.",
+      time: "1 day ago",
+    },
+    {
+      id: 3,
+      title: "New Tax Incentive",
+      description: "New tax incentives available for commercial properties in Austin.",
+      time: "2 days ago",
+    },
+  ];
+
+  // Mock analytics data
+  const analyticsData = {
+    propertyValue: 12500000,
+    propertyValueChange: 8.4,
+    rentalYield: 6.8,
+    rentalYieldChange: 0.5,
+    portfolioROI: 11.3,
+    portfolioROIChange: 2.1,
+    riskScore: 42,
+    riskScoreChange: -5,
+  };
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <Navbar />
       <main className="container mx-auto px-4 pt-24 pb-16">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-1">Welcome to your Dashboard</h1>
-            <p className="text-zinc-500 dark:text-zinc-400">
-              Manage your investments and access AI-powered insights
+            <h1 className="text-3xl font-bold">Dashboard</h1>
+            <p className="text-zinc-600 dark:text-zinc-400">
+              Welcome back! Here's an overview of your real estate investments.
             </p>
           </div>
-          <div className="flex gap-3">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center"
-              onClick={() => navigate("/profile")}
-            >
-              <User className="mr-2 h-4 w-4" />
-              Profile
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center"
-            >
-              <Bell className="mr-2 h-4 w-4" />
-              Notifications
-            </Button>
-            <Button size="sm" className="flex items-center">
-              <TrendingUp className="mr-2 h-4 w-4" />
-              New Analysis
-            </Button>
+          <div className="mt-4 md:mt-0 flex items-center space-x-2">
+            <Select defaultValue="all">
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Filter by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Properties</SelectItem>
+                <SelectItem value="residential">Residential</SelectItem>
+                <SelectItem value="commercial">Commercial</SelectItem>
+                <SelectItem value="industrial">Industrial</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select defaultValue="month">
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Time period" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="week">This Week</SelectItem>
+                <SelectItem value="month">This Month</SelectItem>
+                <SelectItem value="quarter">This Quarter</SelectItem>
+                <SelectItem value="year">This Year</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Portfolio Value
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$8,500,000</div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                <span className="text-green-500 font-medium">↑ 12.5%</span> from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Current ROI
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">7.8%</div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                <span className="text-green-500 font-medium">↑ 0.6%</span> from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Risk Assessment
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">Low-Medium</div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                Based on current market conditions
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="properties" className="mb-8">
-          <TabsList className="mb-4">
-            <TabsTrigger value="properties" className="flex items-center">
-              <Building2 className="mr-2 h-4 w-4" />
-              Properties
-            </TabsTrigger>
-            <TabsTrigger value="insights" className="flex items-center">
-              <PieChart className="mr-2 h-4 w-4" />
-              Insights
-            </TabsTrigger>
-            <TabsTrigger value="market" className="flex items-center">
-              <BarChart3 className="mr-2 h-4 w-4" />
-              Market Analysis
-            </TabsTrigger>
+        <Tabs defaultValue="overview" className="mb-8">
+          <TabsList className="grid grid-cols-3 md:grid-cols-6 lg:w-[800px]">
+            <TabsTrigger value="overview" onClick={() => setActiveTab("overview")}>Overview</TabsTrigger>
+            <TabsTrigger value="properties" onClick={() => setActiveTab("properties")}>Properties</TabsTrigger>
+            <TabsTrigger value="analytics" onClick={() => setActiveTab("analytics")}>Analytics</TabsTrigger>
             {userRole === "developer" && (
-              <TabsTrigger value="zoning" className="flex items-center">
-                <Map className="mr-2 h-4 w-4" />
-                Zoning
-              </TabsTrigger>
+              <TabsTrigger value="projects" onClick={() => setActiveTab("projects")}>Projects</TabsTrigger>
             )}
             {userRole === "admin" && (
-              <TabsTrigger value="admin" className="flex items-center">
-                <Settings className="mr-2 h-4 w-4" />
-                Admin Panel
-              </TabsTrigger>
+              <TabsTrigger value="users" onClick={() => setActiveTab("users")}>Users</TabsTrigger>
             )}
+            <TabsTrigger value="settings" onClick={() => setActiveTab("settings")}>Settings</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="properties">
-            <h2 className="text-xl font-bold mb-4">Your Investment Properties</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  image={property.image}
-                  title={property.title}
-                  location={property.location}
-                  price={property.price}
-                  roi={property.roi}
-                  risk={property.risk}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="insights">
-            <h2 className="text-xl font-bold mb-4">AI Investment Insights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TabsContent value="overview" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <Card>
-                <CardHeader>
-                  <CardTitle>Market Trends</CardTitle>
-                  <CardDescription>
-                    AI-powered analysis of current market conditions
-                  </CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
+                  <DollarSign className="h-4 w-4 text-zinc-500" />
                 </CardHeader>
                 <CardContent>
-                  <p className="mb-2">
-                    <span className="font-medium">Rising demand:</span> 3-bedroom apartments in urban centers
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-medium">Decreasing value:</span> Commercial office spaces due to remote work
-                  </p>
-                  <p>
-                    <span className="font-medium">Opportunity area:</span> Mixed-use developments in suburban locations
+                  <div className="text-2xl font-bold">${(analyticsData.propertyValue / 1000000).toFixed(1)}M</div>
+                  <p className="text-xs text-zinc-500">
+                    <span className={analyticsData.propertyValueChange > 0 ? "text-green-500" : "text-red-500"}>
+                      {analyticsData.propertyValueChange > 0 ? "+" : ""}{analyticsData.propertyValueChange}%
+                    </span>{" "}
+                    from last month
                   </p>
                 </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Rental Yield</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-zinc-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{analyticsData.rentalYield}%</div>
+                  <p className="text-xs text-zinc-500">
+                    <span className={analyticsData.rentalYieldChange > 0 ? "text-green-500" : "text-red-500"}>
+                      {analyticsData.rentalYieldChange > 0 ? "+" : ""}{analyticsData.rentalYieldChange}%
+                    </span>{" "}
+                    from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">ROI</CardTitle>
+                  <Activity className="h-4 w-4 text-zinc-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{analyticsData.portfolioROI}%</div>
+                  <p className="text-xs text-zinc-500">
+                    <span className={analyticsData.portfolioROIChange > 0 ? "text-green-500" : "text-red-500"}>
+                      {analyticsData.portfolioROIChange > 0 ? "+" : ""}{analyticsData.portfolioROIChange}%
+                    </span>{" "}
+                    from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Risk Score</CardTitle>
+                  <BarChart3 className="h-4 w-4 text-zinc-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{analyticsData.riskScore}/100</div>
+                  <Progress value={analyticsData.riskScore} className="h-2" />
+                  <p className="text-xs text-zinc-500 mt-2">
+                    <span className={analyticsData.riskScoreChange < 0 ? "text-green-500" : "text-red-500"}>
+                      {analyticsData.riskScoreChange < 0 ? "" : "+"}{analyticsData.riskScoreChange} pts
+                    </span>{" "}
+                    from last assessment
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <Card className="lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>Recent Properties</CardTitle>
+                  <CardDescription>Your latest investment properties</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {propertyCards.map((property) => (
+                      <div key={property.id} className="flex items-center border rounded-lg p-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+                        <div className="w-16 h-16 rounded overflow-hidden mr-4 flex-shrink-0">
+                          <img src={property.image} alt={property.title} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-grow">
+                          <h3 className="font-medium">{property.title}</h3>
+                          <p className="text-xs text-zinc-500">{property.location}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold">{property.value}</p>
+                          <p className={`text-xs ${property.roi.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                            {property.roi} ROI
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <button className="text-sm text-primary hover:underline">View all properties</button>
+                </CardFooter>
               </Card>
               
               <Card>
                 <CardHeader>
-                  <CardTitle>Investment Recommendations</CardTitle>
-                  <CardDescription>
-                    Personalized suggestions based on your portfolio
-                  </CardDescription>
+                  <CardTitle>Recent Notifications</CardTitle>
+                  <CardDescription>Latest updates from your investments</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="mb-2">
-                    <span className="font-medium">Diversify:</span> Consider adding residential properties to balance commercial investments
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-medium">Optimize:</span> Renovate Property #2 to increase rental yield by estimated 12%
-                  </p>
-                  <p>
-                    <span className="font-medium">Expand:</span> Miami market shows strong growth potential matching your risk profile
-                  </p>
+                  <div className="space-y-4">
+                    {notifications.map((notification) => (
+                      <div key={notification.id} className="border-b pb-3 last:border-0">
+                        <div className="flex items-start">
+                          <div className="bg-zinc-100 dark:bg-zinc-800 rounded-full p-2 mr-3">
+                            <Bell className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm">{notification.title}</h4>
+                            <p className="text-xs text-zinc-500">{notification.description}</p>
+                            <p className="text-xs text-zinc-400 mt-1">{notification.time}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
+                <CardFooter>
+                  <button className="text-sm text-primary hover:underline">View all notifications</button>
+                </CardFooter>
               </Card>
             </div>
           </TabsContent>
-          
-          <TabsContent value="market">
-            <h2 className="text-xl font-bold mb-4">Market Analysis</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 mb-6">
-              Comprehensive analysis of real estate markets based on location, property type, and investment goals.
-            </p>
-            <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center mb-4">
-              [Market Trend Chart Placeholder]
+
+          {activeTab === "properties" && (
+            <div className="mt-6">
+              {/* Properties tab content would go here */}
+              <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                [Property Management Interface Coming Soon]
+              </div>
             </div>
-            <Button>Generate New Analysis</Button>
-          </TabsContent>
-          
-          {userRole === "developer" && (
-            <TabsContent value="zoning">
-              <h2 className="text-xl font-bold mb-4">Zoning Optimizer</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 mb-6">
-                Tools for developers to analyze zoning regulations and optimize property usage.
-              </p>
-              <Button>Run Zoning Analysis</Button>
-            </TabsContent>
           )}
           
-          {userRole === "admin" && (
-            <TabsContent value="admin">
-              <h2 className="text-xl font-bold mb-4">Admin Panel</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 mb-6">
-                Manage platform settings, user permissions, and data access.
-              </p>
-              <Button>Access Admin Controls</Button>
-            </TabsContent>
+          {activeTab === "analytics" && (
+            <div className="mt-6">
+              {/* Analytics tab content would go here */}
+              <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                [Advanced Analytics Coming Soon]
+              </div>
+            </div>
+          )}
+          
+          {userRole === "developer" && activeTab === "projects" && (
+            <div className="mt-6">
+              {/* Projects tab content would go here */}
+              <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                [Project Management Interface Coming Soon]
+              </div>
+            </div>
+          )}
+          
+          {userRole === "admin" && activeTab === "users" && (
+            <div className="mt-6">
+              {/* Users tab content would go here */}
+              <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                [User Management Interface Coming Soon]
+              </div>
+            </div>
+          )}
+          
+          {activeTab === "settings" && (
+            <div className="mt-6">
+              {/* Settings tab content would go here */}
+              <div className="h-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                [Settings Interface Coming Soon]
+              </div>
+            </div>
           )}
         </Tabs>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Clock className="mr-2 h-5 w-5" />
-                Recent Activities
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-4">
-                  <div className="bg-primary/10 text-primary rounded-full p-2">
-                    <FileText className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">New property analysis completed</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">2 hours ago</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="bg-primary/10 text-primary rounded-full p-2">
-                    <DollarSign className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">ROI calculation updated</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">Yesterday</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="bg-primary/10 text-primary rounded-full p-2">
-                    <Map className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">New zoning data available</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">3 days ago</p>
-                  </div>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Bell className="mr-2 h-5 w-5" />
-                Alerts & Notifications
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-4">
-                  <div className="bg-yellow-500/10 text-yellow-500 rounded-full p-2">
-                    <AlertCircle className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Market volatility detected in commercial sector</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">High priority</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="bg-green-500/10 text-green-500 rounded-full p-2">
-                    <TrendingUp className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Positive trend in residential property values</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">Medium priority</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="bg-blue-500/10 text-blue-500 rounded-full p-2">
-                    <Building2 className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium">New investment opportunity matching your criteria</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">Medium priority</p>
-                  </div>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
       </main>
       <Footer />
     </div>
